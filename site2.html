@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .product {
+            display: none;
+        }
+    </style>
+
+
+
+
+
+
+
+</head>
+
+
+<body>
+    <h1>Formulário de pesquisa de produtos</h1>
+    <hr>
+    <input type="text" id="search" placeholder="Filtrar produtos...">
+    <div id="product-list">
+        <div class="product" data-name="Eletronicos">Eletronicos</div>
+        <div class="product" data-name="roupas">Roupas</div>
+        <div class="product" data-name="Tênis">Tênis</div>
+        <div class="product" data-name="Boné">Boné</div>
+    </div>
+
+    <script>
+        document.getElementById('search').addEventListener('input', function() {
+            let filter = this.value.toLowerCase();
+            let products = document.querySelectorAll('.product');
+            products.forEach(function(product) {
+                let productName = product.getAttribute('data-name').toLowerCase();
+                if (productName.includes(filter)) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        });
+    </script> <br><br>
+     <form id="price-filter-form">
+        <label for="min-price">Preço Mínimo:</label>
+        <input type="number" id="min-price" name="min-price" min="10" step="0.1">
+        
+        <label for="max-price">Preço Máximo:</label>
+        <input type="number" id="max-price" name="max-price" max="40" step="0.1">
+        
+        <button type="button" onclick="filterProducts()">Filtrar</button>
+    </form>
+
+    <div id="product-list">
+        <div class="product" data-price="10.00"> Eletronicos - R$10.00</div>
+        <div class="product" data-price="20.00">Roupas- R$20.00</div>
+        <div class="product" data-price="30.00">Tênis - R$30.00</div>
+        <div class="product" data-price="40.00">Boné - R$40.00</div>
+    </div>
+    <br>
+
+    <script>
+        function filterProducts() {
+            const minPrice = parseFloat(document.getElementById('min-price').value) || 0;
+            const maxPrice = parseFloat(document.getElementById('max-price').value) || Infinity;
+            const products = document.querySelectorAll('.product');
+
+            products.forEach(product => {
+                const price = parseFloat(product.getAttribute('data-price'));
+                if (price >= minPrice && price <= maxPrice) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        }
+    </script>
+    
+    <style>
+        .rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: left;
+        }
+        .rating input {
+            display: none;
+        }
+        .rating label {
+            cursor: pointer;
+            width: 1em;
+            font-size: 2rem;
+            color: #FFD700;
+            text-shadow: 1px 1px #bbb;
+        }
+        .rating input:checked ~ label {
+            color: #FFD700;
+        }
+        .rating label:hover,
+        .rating label:hover ~ label {
+            color: #FFD700;
+        }
+    </style>
+
+<form action="/filtrar" method="GET">
+    <div class="rating">
+        <input type="radio" id="star5" name="rating" value="5">
+        <label for="star5" title="5 estrelas">&#9733;</label>
+        <input type="radio" id="star4" name="rating" value="4">
+        <label for="star4" title="4 estrelas">&#9733;</label>
+        <input type="radio" id="star3" name="rating" value="3">
+        <label for="star3" title="3 estrelas">&#9733;</label>
+        <input type="radio" id="star2" name="rating" value="2">
+        <label for="star2" title="2 estrelas">&#9733;</label>
+        <input type="radio" id="star1" name="rating" value="1">
+        <label for="star1" title="1 estrela">&#9733;</label>
+    </div>
+    <button type="submit">Filtrar</button>
+</form>
+    
+</body>
+</html>
